@@ -1,0 +1,65 @@
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 440px;
+    background-color: #444;
+    padding: 50px 30px 0 30px;
+    box-sizing: border-box;
+}
+
+.profile{
+    display: flex;
+    gap: 20px;
+    color: white;
+    margin-bottom: 70px;
+}
+
+.profile-info{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.name{
+    all: unset;
+    color: #FFF;
+
+font-family: Inter;
+font-size: 36px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.status{
+    all: unset;
+    color: #FFF;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.link{
+  
+        all: unset;
+        color: #FFF;
+    cursor: pointer;
+    font-family: Inter;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+}
+
+.navigation{
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
