@@ -1,18 +1,27 @@
 "use client";
 
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 
-export const WebcamComponent = ({setImgSrc}) => {
+export const WebcamComponent = ({ accessAnalysData, imgSrc, setImgSrc }) => {
   const videoConstraints = {
     width: 1280,
     height: 720,
     facingMode: "user",
   };
+  useEffect(() => {
+    capture();
+  }, [accessAnalysData, imgSrc]);
+
+  useEffect(() => {
+    capture();
+  }, []);
+
   const webcamRef = useRef(null);
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    setImgSrc(imageSrc)
+
+    setImgSrc(imageSrc);
   }, [webcamRef]);
   return (
     <>

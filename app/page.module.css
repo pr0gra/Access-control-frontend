@@ -4,7 +4,7 @@
   padding-top: 24px;
 
   padding-right: 24px;
-  grid-template-columns: 433px auto auto;
+  grid-template-columns: 433px 35% 35%;
 }
 
 /* body{
@@ -40,11 +40,15 @@
 
 .main {
   background: #e2e2e2;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .people-table {
   background: white;
+}
+
+.people-table-title{
+  width: 100%;
 }
 
 .title {

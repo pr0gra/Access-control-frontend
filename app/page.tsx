@@ -18,23 +18,25 @@ function dataURLtoFile(dataurl, filename) {
 
 export default function Home() {
   async function getImageAccessAnalysFromCamera() {
-    let file =  dataURLtoFile(imgSrc, 'image')
+    let file = dataURLtoFile(imgSrc, "image");
     let formData = new FormData();
     formData.append("image", file);
     const response = await fetch(
       "https://8a72-193-143-66-46.ngrok-free.app/visitors/identify/",
       {
         method: "POST",
-        headers: { mode: "no-cors", },
+        headers: { mode: "no-cors" },
         body: formData,
       }
     );
-    const data = response.json();
+    const data = await response.json();
     console.log(data);
+    setAccessAnalysData((prev) => [...prev, data]);
+    setImgSrc(null)
   }
-  const peopleFromCamera = ["Иван Иванов", "Петя Петров", "Денис Денисов"];
-  let accessControlPercent = Math.floor(Math.random() * 100);
+
   const [imgSrc, setImgSrc] = useState(null);
+  const [accessAnalysData, setAccessAnalysData] = useState([]);
 
   useEffect(() => {
     if (imgSrc === null) {
@@ -48,27 +50,21 @@ export default function Home() {
     <main className={styles["main"]}>
       <div className={styles["sections-container"]}>
         <section className={styles["people-table"]}>
-          {peopleFromCamera.map((person, index) => {
+          <h1 className={styles["prople-table-title"]}>Таблица</h1>
+          {accessAnalysData.map((person, index) => {
+            if (person?.is_face === false) {
+              return;
+            }
             return (
-              <div className={styles["person"]}>
+              <div key={index} className={styles["person"]}>
                 <div className={styles["time"]}>
                   <p className={styles["time-text"]}>
                     {new Date().toDateString()}
                   </p>
                 </div>
                 <div className={styles["access-control-percent"]}>
-                  <p
-                    className={
-                      styles[
-                        `access-control-percent-text ${
-                          accessControlPercent < 90 && accessControlPercent > 50
-                            ? `access-control-percent-text-yellow`
-                            : `access-control-percent-text-red`
-                        }`
-                      ]
-                    }
-                  >
-                    {Math.floor(Math.random() * 100)}
+                  <p className={styles[`access-control-percent-text`]}>
+                    {Math.floor(person.coeff * 100) + " %"}
                   </p>
                 </div>
 
@@ -82,7 +78,9 @@ export default function Home() {
                   <circle cx="40" cy="40" r="40" fill="#616161" />
                 </svg>
                 <div className={styles["person-fullname"]}>
-                  <p className={styles["person-fullname-text"]}>{person}</p>
+                  <p
+                    className={styles["person-fullname-text"]}
+                  >{`${person.visitor.last_name} ${person.visitor.first_name} ${person.visitor.patronymic}`}</p>
                 </div>
               </div>
             );
@@ -91,7 +89,11 @@ export default function Home() {
         <section className={styles["camera"]}>
           <h1 className={styles["title"]}>Камера</h1>
           <div className={styles["camera-display"]}>
-            <WebcamComponent setImgSrc={setImgSrc} />
+            <WebcamComponent
+              accessAnalysData={accessAnalysData}
+              imgSrc={imgSrc}
+              setImgSrc={setImgSrc}
+            />
           </div>
           <div className={styles["percent"]}>Распознан: %</div>
           <div className={styles["more-info"]}>
