@@ -96,7 +96,9 @@ export default function Home() {
           </div>
           <div className={styles["percent"]}>Распознан: %</div>
           <div className={styles["more-info"]}>
-            <div className={styles["image"]}></div>
+            <div className={styles["image"]}>
+              {/* <img src={imgSrc && imgSrc} alt="" /> */}
+            </div>
             <p className={styles["more-info-text"]}>фио</p>
           </div>
         </section>

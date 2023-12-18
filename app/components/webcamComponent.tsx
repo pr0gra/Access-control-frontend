@@ -12,15 +12,15 @@ export const WebcamComponent = ({ accessAnalysData, imgSrc, setImgSrc }) => {
   useEffect(() => {
     capture();
   }, [accessAnalysData, imgSrc]);
-
   useEffect(() => {
     capture();
+   
   }, []);
 
   const webcamRef = useRef(null);
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-
+    console.log(imageSrc)
     setImgSrc(imageSrc);
   }, [webcamRef]);
   return (
