@@ -22,7 +22,7 @@ export default function Home() {
     let formData = new FormData();
     formData.append("image", file);
     const response = await fetch(
-      "http://localhost:8000/visitors/identify/",
+      "https://46d0-2a03-d000-5004-906e-e400-f2c7-da3d-7812.ngrok-free.app/visitors/identify/",
       {
         method: "POST",
         headers: { mode: "no-cors" },
