@@ -22,7 +22,7 @@ export default function Home() {
     let formData = new FormData();
     formData.append("image", file);
     const response = await fetch(
-      "https://8a72-193-143-66-46.ngrok-free.app/visitors/identify/",
+      "http://localhost:8000/visitors/identify/",
       {
         method: "POST",
         headers: { mode: "no-cors" },
@@ -51,7 +51,7 @@ export default function Home() {
       <div className={styles["sections-container"]}>
         <section className={styles["people-table"]}>
           {accessAnalysData.map((person, index) => {
-            if (person?.is_face === false) {
+            if (person?.isFace === false) {
               return;
             }
             return (
@@ -79,7 +79,9 @@ export default function Home() {
                 <div className={styles["person-fullname"]}>
                   <p
                     className={styles["person-fullname-text"]}
-                  >{`${person.visitor.last_name} ${person.visitor.first_name} ${person.visitor.patronymic}`}</p>
+                  >
+                    {`${person.visitor.lastName} ${person.visitor.firstName} ${person.visitor.patronymic}`}
+                  </p>
                 </div>
               </div>
             );
