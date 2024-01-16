@@ -1,27 +1,29 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
 export const WebcamComponent = ({ accessAnalysData, imgSrc, setImgSrc }) => {
+  const [isActive, setIsActive] = useState(false);
   const videoConstraints = {
     width: 1280,
     height: 720,
     facingMode: "user",
   };
   useEffect(() => {
+    if (!isActive) {
+      return;
+    }
     capture();
+    console.log(isActive);
   }, [accessAnalysData, imgSrc]);
-  useEffect(() => {
-    capture();
-   
-  }, []);
 
   const webcamRef = useRef(null);
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc)
+    console.log(imageSrc);
     setImgSrc(imageSrc);
+    setIsActive((prev) => true);
   }, [webcamRef]);
   return (
     <>
@@ -33,7 +35,20 @@ export const WebcamComponent = ({ accessAnalysData, imgSrc, setImgSrc }) => {
         width={1280}
         videoConstraints={videoConstraints}
       />{" "}
-      <button onClick={capture}>Capture photo</button>
+      {isActive ? (
+        <button
+          className="pt-4"
+          onClick={() => {
+            setIsActive(false);
+          }}
+        >
+          Остановить
+        </button>
+      ) : (
+        <button className="pt-4" onClick={capture}>
+          Запустить
+        </button>
+      )}
     </>
   );
 };
