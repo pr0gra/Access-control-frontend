@@ -32,12 +32,24 @@ export default function Home() {
     const data = await response.json();
     console.log(data);
     setAccessAnalysData((prev) => [...prev, data]);
+    setCurrentPersonData(data);
     setImgSrc(null);
   }
 
+  useEffect(()=>{
+    setInterval(()=>{
+      const data = fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => setTEST((prev)=>[...prev, json]))
+      
+    }, 4000)
+  },[
+  ])
+  const [TEST, setTEST] = useState([])
+  console.log(TEST)
   const [imgSrc, setImgSrc] = useState(null);
   const [accessAnalysData, setAccessAnalysData] = useState([]);
-
+  const [currentPersonData, setCurrentPersonData] = useState({});
   useEffect(() => {
     if (imgSrc === null) {
       return;
@@ -45,12 +57,12 @@ export default function Home() {
 
     getImageAccessAnalysFromCamera();
   }, [imgSrc]);
-
+  console.log(currentPersonData);
   return (
     <main className={styles["main"]}>
       <div className={styles["sections-container"]}>
         <section className={styles["people-table"]}>
-          {accessAnalysData.map((person, index) => {
+          {/* {accessAnalysData.map((person, index) => {
             if (person?.isFace === false) {
               return;
             }
@@ -67,24 +79,23 @@ export default function Home() {
                   </p>
                 </div>
 
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 80 80"
-                  fill="none"
-                >
-                  <circle cx="40" cy="40" r="40" fill="#616161" />
-                </svg>
+                <img
+                  className="rounded-full h-[83px] w-[83px]"
+                  src={`https://46d0-2a03-d000-5004-906e-e400-f2c7-da3d-7812.ngrok-free.app${currentPersonData?.visitor?.faceImage}`}
+                  alt=""
+                />
                 <div className={styles["person-fullname"]}>
-                  <p
-                    className={styles["person-fullname-text"]}
-                  >
+                  <p className={styles["person-fullname-text"]}>
                     {`${person.visitor.lastName} ${person.visitor.firstName} ${person.visitor.patronymic}`}
                   </p>
                 </div>
               </div>
             );
+          })} */}
+          {TEST.map((elem, id)=>{
+            return <div className="h-[250px]">
+              elem.title {id}
+            </div>
           })}
         </section>
         <section className={styles["camera"]}>
@@ -96,12 +107,26 @@ export default function Home() {
               setImgSrc={setImgSrc}
             />
           </div>
-          <div className={styles["percent"]}>Распознан: %</div>
+          <div className={styles["percent"]}>
+            Распознан:{" "}
+            {currentPersonData?.visitor &&
+              Math.floor(currentPersonData?.coeff * 100)}{" "}
+            %
+          </div>
           <div className={styles["more-info"]}>
             <div className={styles["image"]}>
-              {/* <img src={imgSrc && imgSrc} alt="" /> */}
+              {currentPersonData?.visitor && (
+                <img
+                  src={`https://46d0-2a03-d000-5004-906e-e400-f2c7-da3d-7812.ngrok-free.app${currentPersonData?.visitor?.faceImage}`}
+                  alt=""
+                />
+              )}
             </div>
-            <p className={styles["more-info-text"]}>фио</p>
+            {currentPersonData?.visitor && (
+              <p className={styles["more-info-text"]}>
+                {`${currentPersonData?.visitor?.lastName} ${currentPersonData?.visitor?.firstName} ${currentPersonData?.visitor?.patronymic}`}
+              </p>
+            )}
           </div>
         </section>
       </div>

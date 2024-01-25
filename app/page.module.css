@@ -12,7 +12,11 @@
     background: #E2E2E2;
 } */
 
-.people-table {
+.people-table::-webkit-scrollbar{
+  display: none;
+}
+
+.people-table{
   background: white;
 
   grid-column: 2;
